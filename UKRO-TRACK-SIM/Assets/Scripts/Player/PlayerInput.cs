@@ -24,6 +24,9 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private TextMeshProUGUI wrongText;
 
     private CarOutputSample _carOutputSample;
+
+    [Header("Percent for update level")] [SerializeField]
+    private float minValueForNextLevel = 0.65f;
     
     private void Awake()
     {
@@ -93,6 +96,11 @@ public class PlayerInput : MonoBehaviour
         float _sum = wrongActions + rightActions;
         
         Debug.Log(rightActions / _sum);
+        if (rightActions / _sum > minValueForNextLevel)
+            Player.Instance.UpdateLevel();
+        else
+            Player.Instance.ResetGame();
+
         wrongActions = 0;
         rightActions = 0;
     }
