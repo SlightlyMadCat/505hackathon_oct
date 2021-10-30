@@ -43,7 +43,6 @@ public class CarGenerator : MonoBehaviour
         _spawnPlaces.Remove(_spawnPlaces[_spawnPlaceNumber]);
         
         var _carStop = Random.Range(0, stopCarCoef);
-        Debug.Log("_carStop " + _carStop);
         if (_carStop == 0)
             _car.gameObject.AddComponent<CarStop>();
     }

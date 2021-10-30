@@ -1187,8 +1187,8 @@ MonoBehaviour:
   - {fileID: 6555383454853425584, guid: c4bf5f52721edcd49a1c98c3125d387e, type: 3}
   - {fileID: 4370199773757449005, guid: 2a9f06e7cfd26514ba7c50145941d43b, type: 3}
   - {fileID: 4518392608544133787, guid: 52c4df925fea2d04d8f20711c1484865, type: 3}
-  carCount: {x: 4, y: 8}
-  stopCarCoef: 4
+  carCount: {x: 5, y: 9}
+  stopCarCoef: 3
 --- !u!1 &6980792674967816947
 GameObject:
   m_ObjectHideFlags: 0

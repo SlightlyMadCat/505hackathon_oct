@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.UI;
 
 /**
  * Script control road moving (start/stop + speed)
@@ -17,6 +18,10 @@ public class SpeedController : MonoBehaviour
     [SerializeField] private float currentSpeedCoef = 0f;
     private float currentSpeed;
     private Coroutine speedCor;
+
+    [Header("Delay settings")]
+    [SerializeField] private int seconds = 3;
+    [SerializeField] private Text secondText;
     private void Awake()
     {
         Instance = this;
@@ -52,8 +57,9 @@ public class SpeedController : MonoBehaviour
         if(speedCor != null)
             StopCoroutine(speedCor);
         SetCurrentSpeedCoef(0);
-        Debug.LogError("STOP ----------");
+        StartCoroutine(ShowDelayBeforeGame());
     }
+    
     [ContextMenu("start")]
     public void StartMovement() // start movement
     {
@@ -76,7 +82,7 @@ public class SpeedController : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        // generate new road
+        // try stop car
         if (other.gameObject.CompareTag("Car"))
         {
             var _car = other.gameObject.GetComponent(typeof(CarStop)) as CarStop;
@@ -85,6 +91,20 @@ public class SpeedController : MonoBehaviour
         }
     }
 
- 
+    // show delay before start game
+    IEnumerator ShowDelayBeforeGame()
+    {
+        int _currentSecond = seconds;
+        secondText.text = _currentSecond.ToString();
+        secondText.gameObject.SetActive(true);
+        while (_currentSecond != 0)
+        {
+            yield return new WaitForSeconds(1);
+            _currentSecond--;
+            secondText.text = _currentSecond.ToString();
+        }
+        secondText.gameObject.SetActive(false);
+        Debug.LogError("start game");
+    }
     
 }
