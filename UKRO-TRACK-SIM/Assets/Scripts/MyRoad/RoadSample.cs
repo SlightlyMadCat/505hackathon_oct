@@ -4,16 +4,20 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
+// Road sample element, consists of: piece of road and cars on it
 public class RoadSample : MonoBehaviour
 {
     [SerializeField] private Transform roadEnd;
-    private float curz = 0;
+    private float curZPos = 0;
     private float speed = 500f; 
+    
+    // get end transform of road
     public Transform GetRoadEnd()
     {
         return roadEnd;
     }
 
+    // get start transform of road
     public Transform GetRoadStart()
     {
         return transform;
@@ -21,13 +25,22 @@ public class RoadSample : MonoBehaviour
 
     private void Awake()
     {
-        curz = transform.position.z;
+        curZPos = transform.position.z; // remember start position
+        GenerateCars(); // generate cars
+    }
+
+    // Generate cars on road, call from awake
+    private void GenerateCars()
+    {
+       
     }
 
     public void FixedUpdate()
     {
-        curz -= math.abs( Time.deltaTime * speed) ;
-        transform.position = new Vector3(transform.position.x, transform.position.y,
-            curz);
+        // move with speed from speed-controller
+        curZPos -= SpeedController.Instance.GetCurrentSpeed();
+        var position = transform.position;
+        position = new Vector3(position.x, position.y, curZPos);
+        transform.position = position;
     }
 }
