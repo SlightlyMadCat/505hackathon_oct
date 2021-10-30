@@ -28,6 +28,12 @@ public class SpeedController : MonoBehaviour
         currentSpeed = Time.deltaTime * currentSpeedCoef;
     }
 
+    public void Update()
+    {
+        if (Input.GetKey(KeyCode.A))
+            StartMovement();
+    }
+
     // get current speed
     public float GetCurrentSpeed()
     {
@@ -46,6 +52,7 @@ public class SpeedController : MonoBehaviour
         if(speedCor != null)
             StopCoroutine(speedCor);
         SetCurrentSpeedCoef(0);
+        Debug.LogError("STOP ----------");
     }
     [ContextMenu("start")]
     public void StartMovement() // start movement
@@ -67,5 +74,17 @@ public class SpeedController : MonoBehaviour
         }
     }
     
+    private void OnTriggerEnter(Collider other)
+    {
+        // generate new road
+        if (other.gameObject.CompareTag("Car"))
+        {
+            var _car = other.gameObject.GetComponent(typeof(CarStop)) as CarStop;
+            if (_car != null)
+                StopMovement();
+        }
+    }
+
+ 
     
 }

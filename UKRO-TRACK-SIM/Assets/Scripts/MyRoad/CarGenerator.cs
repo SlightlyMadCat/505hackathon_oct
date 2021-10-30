@@ -14,6 +14,8 @@ public class CarGenerator : MonoBehaviour
     [SerializeField] private GameObject[] carSamples; // available cars for spawn
     [SerializeField] private Vector2 carCount = new Vector2(3, 5);
 
+    [Header("Stop car coef = 1/stopCarCoef")]
+    [SerializeField] private int stopCarCoef;
     private void Awake()
     {
         GenerateCars();
@@ -39,5 +41,10 @@ public class CarGenerator : MonoBehaviour
         GameObject _car = Instantiate(carSamples[_carNumber], gameObject.transform);
         _car.transform.position = _spawnPlaces[_spawnPlaceNumber].position;
         _spawnPlaces.Remove(_spawnPlaces[_spawnPlaceNumber]);
+        
+        var _carStop = Random.Range(0, stopCarCoef);
+        Debug.Log("_carStop " + _carStop);
+        if (_carStop == 0)
+            _car.gameObject.AddComponent<CarStop>();
     }
 }
