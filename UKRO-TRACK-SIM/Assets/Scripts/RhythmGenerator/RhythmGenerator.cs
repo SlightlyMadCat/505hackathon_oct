@@ -24,13 +24,13 @@ public class RhythmGenerator : MonoBehaviour
     [Serializable]
     public class SignalSample
     {
-        public enum SignalType
+        private enum SignalType
         {
             light,
             sound
         }
 
-        public SignalType signalType;
+        private SignalType signalType;
         [SerializeField] float duration;
         [SerializeField] float nextSignalDelay;
 
@@ -50,6 +50,12 @@ public class RhythmGenerator : MonoBehaviour
         public float GetNextSignalDelay()
         {
             return nextSignalDelay;
+        }
+
+        public int GetSignalType()
+        {
+            //0-light, 1-sound
+            return (int)signalType;
         }
     }
 
@@ -85,6 +91,11 @@ public class RhythmGenerator : MonoBehaviour
 
                 signalSamples.Add(_newSignal);
             }
+        }
+
+        public List<SignalSample> GetSignalSequence()
+        {
+            return signalSamples;
         }
     }
     
@@ -129,7 +140,7 @@ public class RhythmGenerator : MonoBehaviour
 
     [SerializeField] private List<ComplexityLevelSample> complexityLevelSamples = new List<ComplexityLevelSample>();
 
-    [ContextMenu("Generator")]
+    [ContextMenu("Generate")]
     public void GenerateNewSignal()
     {
         //get random complexity here:
@@ -152,5 +163,6 @@ public class RhythmGenerator : MonoBehaviour
     public void PlayRhythm(RhythmSample _generatedRhytm)
     {
         _rhythm = _generatedRhytm;
+        CarController.Instance.PlayNewRhythm(_generatedRhytm);
     }
 }

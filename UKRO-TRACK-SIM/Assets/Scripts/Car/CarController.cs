@@ -18,8 +18,9 @@ public class CarController : MonoBehaviour
     
     [SerializeField] private Light[] lights;
     [SerializeField] private AudioSource horn;
+    private Coroutine playedRhythm;
     
-    public void SetLightsState(bool _val)
+    private void SetLightsState(bool _val)
     {
         foreach (var VARIABLE in lights)
         {
@@ -27,7 +28,7 @@ public class CarController : MonoBehaviour
         }
     }
 
-    public void SetHornState(bool _val)
+    private void SetHornState(bool _val)
     {
         if (_val)
         {
@@ -37,5 +38,37 @@ public class CarController : MonoBehaviour
         {
             horn.Stop();
         }
+    }
+
+    public void PlayNewRhythm(RhythmGenerator.RhythmSample _newRhythm)
+    {
+        if(playedRhythm != null) StopCoroutine(playedRhythm);
+        playedRhythm = StartCoroutine(DisplaySignal(_newRhythm.GetSignalSequence(), 0));
+    }
+
+    private IEnumerator DisplaySignal(List<RhythmGenerator.SignalSample> _signals, float _displayDelay)
+    {
+        float _newDelay = _signals[0].GetNextSignalDelay();
+        //delay before new signal start
+        yield return new WaitForSeconds(_displayDelay);
+        
+        //signal is shown
+        if(_signals[0].GetSignalType() == 0) 
+            SetLightsState(true);
+        else 
+            SetHornState(true);
+        
+        yield return new WaitForSeconds(_signals[0].GetDuration());
+
+        //signal is stopped
+        SetHornState(false);
+        SetLightsState(false);
+        
+        _signals.RemoveAt(0);
+        
+        if(_signals.Count > 0)
+            playedRhythm = StartCoroutine(DisplaySignal(_signals, _newDelay));
+        else
+            Debug.Log("rhythm ended");
     }
 }
