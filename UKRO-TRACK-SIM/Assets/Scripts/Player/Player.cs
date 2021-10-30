@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
         Instance = this;
         SetCurrentPlayerLevel(GetCurrentPlayerLevel());
         SetCurrentPlayerLives(playerLives);
-        startPlayerLives = playerLives;
+        startPlayerLives = playerLives; // remember for reset game
     }
 
     #endregion
@@ -65,6 +65,7 @@ public class Player : MonoBehaviour
     // reset game
     private void ResetGame()
     {
+        Debug.Log("reset game");
         SetCurrentPlayerLevel(0);
         SetCurrentPlayerLives(startPlayerLives);
     }
