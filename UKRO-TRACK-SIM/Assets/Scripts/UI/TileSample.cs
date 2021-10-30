@@ -7,10 +7,14 @@ public class TileSample : MonoBehaviour
     public RectTransform signalImg;
     public RectTransform parentRect;
 
-    public void Init(Transform _parent)
+    [SerializeField] private GameObject[] icons;
+    
+    public void Init(Transform _parent, int _tileType)
     {
         transform.SetParent(_parent);
         transform.localScale = Vector3.one;
+        icons[_tileType].SetActive(true);
+        icons[_tileType].transform.localScale = Vector3.one*2f;
     }
     
     public void SetParentSizeScale(Vector2 _size)
