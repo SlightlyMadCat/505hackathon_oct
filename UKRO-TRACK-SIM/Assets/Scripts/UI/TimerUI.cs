@@ -81,7 +81,7 @@ public class TimerUI : MonoBehaviour
         if (timerImg.gameObject.activeSelf)
         {
             //timer countdown
-            timerImg.value += (timerScaleK / 1.05f * Time.fixedDeltaTime);
+            timerImg.value += (timerScaleK / 1f * Time.fixedDeltaTime / RhythmGenerator.Instance.globalTimeScaler);
             PlayerInput.Instance.CompareStates();
             
             if(timerImg.value >= 1f) SetTimerImgState(false);

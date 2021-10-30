@@ -160,7 +160,8 @@ public class RhythmGenerator : MonoBehaviour
     }
 
     [SerializeField] private List<ComplexityLevelSample> complexityLevelSamples = new List<ComplexityLevelSample>();
-
+    public float globalTimeScaler = 2f;
+    
     [ContextMenu("Generate")]
     public void GenerateNewSignal()
     {
@@ -179,12 +180,9 @@ public class RhythmGenerator : MonoBehaviour
         RhythmSample _newRhythm = new RhythmSample(complexityLevelSamples[_randomLevel]);
         PlayRhythm(_newRhythm);
     }
-
-    [SerializeField] private RhythmSample _rhythm;
-    public void PlayRhythm(RhythmSample _generatedRhytm)
+    
+    private void PlayRhythm(RhythmSample _generatedRhytm)
     {
-        _rhythm = _generatedRhytm;
         CarController.Instance.PlayNewRhythm(_generatedRhytm, false);
-        //TimerUI.Instance.StartTimer(_generatedRhytm);
     }
 }

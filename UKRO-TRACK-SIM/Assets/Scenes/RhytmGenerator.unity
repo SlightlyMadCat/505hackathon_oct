@@ -1861,9 +1861,7 @@ MonoBehaviour:
     signalDurationBounds: {x: 0.1, y: 0.8}
     signalDelayBounds: {x: 0.1, y: 0.8}
     allowedSignals: 000000000100000002000000
-  _rhythm:
-    signalSamples: []
-    chosenSignalTypeId: 0
+  globalTimeScaler: 1.5
 --- !u!1 &1718499496
 GameObject:
   m_ObjectHideFlags: 0

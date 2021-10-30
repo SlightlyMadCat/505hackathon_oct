@@ -36,7 +36,7 @@ public class CarController : MonoBehaviour
     private IEnumerator DisplaySignal(List<RhythmGenerator.SignalSample> _signals, bool _checkerMode)
     {
         //delay before new signal start
-        yield return new WaitForSeconds(_signals[0].GetBeforeSignalDelay());
+        yield return new WaitForSeconds(_signals[0].GetBeforeSignalDelay() * RhythmGenerator.Instance.globalTimeScaler);
         
         //signal is shown
         if (_signals[0].GetSignalType() == 0)
@@ -54,7 +54,7 @@ public class CarController : MonoBehaviour
                 PlayerInput.Instance.SetRhythmSoundsState(true);
         }
 
-        yield return new WaitForSeconds(_signals[0].GetDuration());
+        yield return new WaitForSeconds(_signals[0].GetDuration() * RhythmGenerator.Instance.globalTimeScaler);
 
         //signal is stopped
         if (!_checkerMode)
