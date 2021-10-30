@@ -99,7 +99,7 @@ public class PlayerInput : MonoBehaviour
         if (rightActions / _sum > minValueForNextLevel)
             Player.Instance.UpdateLevel();
         else
-            Player.Instance.ResetGame();
+            Player.Instance.MinusLive();
 
         wrongActions = 0;
         rightActions = 0;

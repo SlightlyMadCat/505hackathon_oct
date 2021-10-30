@@ -13,27 +13,38 @@ public class Player : MonoBehaviour
     #region Singleton
 
     public static Player Instance;
-    [SerializeField] private TextMeshProUGUI levelText;
+    
     private void Awake()
     {
         Instance = this;
         SetCurrentPlayerLevel(GetCurrentPlayerLevel());
+        SetCurrentPlayerLives(playerLives);
+        startPlayerLives = playerLives;
     }
 
     #endregion
 
     [SerializeField] private int playerLevel;
-
-    
+    [SerializeField] private TextMeshProUGUI levelText;
+    [Space]
+    [SerializeField] private int playerLives;
+    [SerializeField] private TextMeshProUGUI livesText;
+    private int startPlayerLives;
     public int GetCurrentPlayerLevel()
     {
         return playerLevel;
     }
 
-    public void SetCurrentPlayerLevel(int level)
+    private void SetCurrentPlayerLevel(int level)
     {
         playerLevel = level;
         UpdateLevelCanvas(GetCurrentPlayerLevel());
+    }
+    
+    public void SetCurrentPlayerLives(int lives)
+    {
+        playerLives = lives;
+        UpdateLivesCanvas(playerLives);
     }
 
     public void UpdateLevel()
@@ -42,14 +53,31 @@ public class Player : MonoBehaviour
         SetCurrentPlayerLevel(newLvl);
     }
 
+    public void MinusLive()
+    {
+        playerLives--;
+        if (playerLives < 0)
+            ResetGame();
+        else
+            SetCurrentPlayerLives(playerLives);
+    }
+    
     // reset game
-    public void ResetGame()
+    private void ResetGame()
     {
         SetCurrentPlayerLevel(0);
+        SetCurrentPlayerLives(startPlayerLives);
     }
 
     private void UpdateLevelCanvas(int _lvl)
     {
         levelText.text = _lvl.ToString();
     }
+    
+    private void UpdateLivesCanvas(int _lives)
+    {
+        livesText.text = _lives.ToString();
+    }
+    
+    
 }
