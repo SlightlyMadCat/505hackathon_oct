@@ -30,7 +30,7 @@ public class RoadGenerator : MonoBehaviour
         }
     }
 
-    // add new road on scene 
+    // add new road on scene and generate cars 
     private void GenerateNewRoadPart(RoadSample _oldRoad)
     {
         Debug.LogError("generate part");
