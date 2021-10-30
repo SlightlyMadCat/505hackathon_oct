@@ -320,7 +320,7 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 454804953}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
@@ -413,7 +413,7 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 849710816}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
@@ -791,16 +791,19 @@ MonoBehaviour:
     requiredPlayerLevel: 0
     signalDurationBounds: {x: 0.5, y: 1}
     signalDelayBounds: {x: 0.5, y: 1}
+    signalsCountBounds: {x: 2, y: 5}
     allowedSignals: 00000000
   - name: Medium
     requiredPlayerLevel: 5
     signalDurationBounds: {x: 0.5, y: 1}
     signalDelayBounds: {x: 0.5, y: 1}
+    signalsCountBounds: {x: 3, y: 6}
     allowedSignals: 0000000001000000
   - name: Hard
     requiredPlayerLevel: 10
     signalDurationBounds: {x: 0.5, y: 1}
     signalDelayBounds: {x: 0.5, y: 1}
+    signalsCountBounds: {x: 4, y: 7}
     allowedSignals: 000000000100000002000000
 --- !u!1 &1815740118
 GameObject:

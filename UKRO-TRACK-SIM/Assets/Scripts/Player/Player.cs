@@ -21,4 +21,9 @@ public class Player : MonoBehaviour
     #endregion
 
     [SerializeField] private int playerLevel;
+
+    public int GetCurrentPlayerLevel()
+    {
+        return playerLevel;
+    }
 }

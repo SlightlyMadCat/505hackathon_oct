@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 /*
  * Main rhythm generator
@@ -30,14 +31,61 @@ public class RhythmGenerator : MonoBehaviour
         }
 
         public SignalType signalType;
-        public float duration;
-        public float nextSignalDelay;
+        [SerializeField] float duration;
+        [SerializeField] float nextSignalDelay;
+
+        public SignalSample(float _duration, float _nextSignalDelay, int _signalTypeId)
+        {
+            duration = _duration;
+            nextSignalDelay = _nextSignalDelay;
+
+            signalType = (SignalType)_signalTypeId;
+        }
+
+        public float GetDuration()
+        {
+            return duration;
+        }
+
+        public float GetNextSignalDelay()
+        {
+            return nextSignalDelay;
+        }
     }
 
     [Serializable]
     public class RhythmSample
     {
         [SerializeField] private List<SignalSample> signalSamples = new List<SignalSample>();
+        [SerializeField] private int chosenSignalTypeId;
+        
+        public RhythmSample(ComplexityLevelSample _complexity)
+        {
+            chosenSignalTypeId = Random.Range(0, _complexity.allowedSignals.Count);
+            
+            //new rhythm signals generation
+            for (int i = 0; i < _complexity.RandomSignalsCount(); i++)
+            {
+                int _signalType = 0;
+                
+                switch (chosenSignalTypeId)
+                {
+                    case 0:
+                        _signalType = 0;
+                        break;
+                    case 1:
+                        _signalType = 1;
+                        break;
+                    case 2:
+                        _signalType = Random.Range(0, 2);
+                        break;
+                }
+                
+                SignalSample _newSignal = new SignalSample(_complexity.RandomSignalDuration(), _complexity.RandomNextSignalDelay(), _signalType);
+
+                signalSamples.Add(_newSignal);
+            }
+        }
     }
     
     [Serializable]
@@ -45,28 +93,64 @@ public class RhythmGenerator : MonoBehaviour
     {
         [SerializeField] private string name;
         [SerializeField] private float requiredPlayerLevel;
+        [SerializeField] private Vector2 signalsCountBounds;
         [SerializeField] private Vector2 signalDurationBounds;
         [SerializeField] private Vector2 signalDelayBounds;
-        private enum AllowedSignals
+
+        public enum AllowedSignals
         {
             light,
             sounds,
             both
         }
 
-        [SerializeField] private List<AllowedSignals> allowedSignals = new List<AllowedSignals>();
+        public List<AllowedSignals> allowedSignals = new List<AllowedSignals>();
+
+        public bool AllowedToUse(int _curPlayerLevel)
+        {
+            return _curPlayerLevel >= requiredPlayerLevel;
+        }
+
+        public int RandomSignalsCount()
+        {
+            return (int)Random.Range(signalsCountBounds.x, signalsCountBounds.y);
+        }
+
+        public float RandomSignalDuration()
+        {
+            return Random.Range(signalDurationBounds.x, signalDurationBounds.y);
+        }
+
+        public float RandomNextSignalDelay()
+        {
+            return Random.Range(signalDelayBounds.x, signalDelayBounds.y);
+        }
     }
 
     [SerializeField] private List<ComplexityLevelSample> complexityLevelSamples = new List<ComplexityLevelSample>();
 
-    
+    [ContextMenu("Generator")]
     public void GenerateNewSignal()
     {
-        RhythmSample _newRhythm = new RhythmSample();
+        //get random complexity here:
+
+        int _randomLevel = 0;
+        bool _levelConfirmed = false;
+        
+        while (!_levelConfirmed)
+        {
+            _randomLevel = Random.Range(0, complexityLevelSamples.Count);
+            if (complexityLevelSamples[_randomLevel].AllowedToUse(Player.Instance.GetCurrentPlayerLevel()))
+                _levelConfirmed = true;
+        }
+        
+        RhythmSample _newRhythm = new RhythmSample(complexityLevelSamples[_randomLevel]);
+        PlayRhythm(_newRhythm);
     }
 
+    [SerializeField] private RhythmSample _rhythm;
     public void PlayRhythm(RhythmSample _generatedRhytm)
     {
-        
+        _rhythm = _generatedRhytm;
     }
 }
