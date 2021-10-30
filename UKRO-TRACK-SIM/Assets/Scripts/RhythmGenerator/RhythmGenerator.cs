@@ -178,6 +178,6 @@ public class RhythmGenerator : MonoBehaviour
     {
         _rhythm = _generatedRhytm;
         CarController.Instance.PlayNewRhythm(_generatedRhytm);
-        TimerUI.Instance.StartTimer(_generatedRhytm.GetTotalSignalsTime());
+        TimerUI.Instance.StartTimer(_generatedRhytm);
     }
 }
