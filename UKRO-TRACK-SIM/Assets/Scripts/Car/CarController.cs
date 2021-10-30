@@ -86,6 +86,7 @@ public class CarController : MonoBehaviour
             {
                 //player actions check ended
                 Debug.Log("player actions ended");
+                SpeedController.Instance.StartMovement();
             }
         }
     }

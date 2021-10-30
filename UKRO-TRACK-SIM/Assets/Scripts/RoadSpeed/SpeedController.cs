@@ -105,6 +105,7 @@ public class SpeedController : MonoBehaviour
         }
         secondText.gameObject.SetActive(false);
         Debug.LogError("start game");
+        RhythmGenerator.Instance.GenerateNewSignal();
     }
     
 }
