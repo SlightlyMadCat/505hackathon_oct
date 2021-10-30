@@ -79,12 +79,26 @@ public class SpeedController : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
+        if (!other.gameObject.CompareTag("Car")) return;
+        
         // try stop car
-        if (other.gameObject.CompareTag("Car"))
+        var _car = other.gameObject.GetComponent(typeof(CarStop)) as CarStop;
+        if (_car != null)
         {
-            var _car = other.gameObject.GetComponent(typeof(CarStop)) as CarStop;
-            if (_car != null)
-                StopMovement();
+            other.GetComponent<CarController>().SetInstance(true);
+            StopMovement();
+        }
+    }
+    
+    private void OnTriggerExit(Collider other)
+    {
+        if (!other.gameObject.CompareTag("Car")) return;
+        
+        // try disable car Instance
+        var _car = other.gameObject.GetComponent(typeof(CarStop)) as CarStop;
+        if (_car != null)
+        {
+            other.GetComponent<CarController>().SetInstance(false);
         }
     }
 }
