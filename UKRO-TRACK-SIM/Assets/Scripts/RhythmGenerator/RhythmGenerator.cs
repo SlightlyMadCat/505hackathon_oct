@@ -63,17 +63,18 @@ public class RhythmGenerator : MonoBehaviour
     public class RhythmSample
     {
         [SerializeField] private List<SignalSample> signalSamples = new List<SignalSample>();
+        private List<SignalSample> copySignals = new List<SignalSample>();
         [SerializeField] private int chosenSignalTypeId;
-        
+
         public RhythmSample(ComplexityLevelSample _complexity)
         {
             chosenSignalTypeId = Random.Range(0, _complexity.allowedSignals.Count);
-            
+
             //new rhythm signals generation
             for (int i = 0; i < _complexity.RandomSignalsCount(); i++)
             {
                 int _signalType = 0;
-                
+
                 switch (chosenSignalTypeId)
                 {
                     case 0:
@@ -86,10 +87,12 @@ public class RhythmGenerator : MonoBehaviour
                         _signalType = Random.Range(0, 2);
                         break;
                 }
-                
-                SignalSample _newSignal = new SignalSample(_complexity.RandomSignalDuration(), _complexity.RandomNextSignalDelay(), _signalType);
+
+                SignalSample _newSignal = new SignalSample(_complexity.RandomSignalDuration(),
+                    _complexity.RandomNextSignalDelay(), _signalType);
 
                 signalSamples.Add(_newSignal);
+                copySignals.Add(_newSignal);
             }
         }
 
@@ -105,11 +108,17 @@ public class RhythmGenerator : MonoBehaviour
             foreach (var VARIABLE in signalSamples)
             {
                 _totalTime += VARIABLE.GetDuration();
-                
-                if(signalSamples.IndexOf(VARIABLE) != signalSamples.Count-1)
+
+                if (signalSamples.IndexOf(VARIABLE) != signalSamples.Count - 1)
                     _totalTime += VARIABLE.GetNextSignalDelay();
             }
+
             return _totalTime;
+        }
+
+        public void RestoreSignals()
+        {
+            signalSamples = copySignals;
         }
     }
     
@@ -177,7 +186,7 @@ public class RhythmGenerator : MonoBehaviour
     public void PlayRhythm(RhythmSample _generatedRhytm)
     {
         _rhythm = _generatedRhytm;
-        CarController.Instance.PlayNewRhythm(_generatedRhytm);
-        TimerUI.Instance.StartTimer(_generatedRhytm);
+        CarController.Instance.PlayNewRhythm(_generatedRhytm, false);
+        //TimerUI.Instance.StartTimer(_generatedRhytm);
     }
 }

@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.UIElements;
+using Slider = UnityEngine.UI.Slider;
 
 public class TimerUI : MonoBehaviour
 {
@@ -24,6 +26,9 @@ public class TimerUI : MonoBehaviour
     [SerializeField] private Transform tilesParent;
     private List<Transform> spawnedTiles = new List<Transform>();
 
+    [Space] [SerializeField] private GameObject countdownPanel;
+    [SerializeField] private TextMeshProUGUI countDownText;
+    
     private void SetTimerImgState(bool _val)
     {
         timerImg.gameObject.SetActive(_val);
@@ -39,6 +44,7 @@ public class TimerUI : MonoBehaviour
     public void StartTimer(RhythmGenerator.RhythmSample _rhythm)
     {
         SetTimerImgState(true);
+        Debug.Log(_rhythm.GetTotalSignalsTime());
         timerScaleK = 1f / _rhythm.GetTotalSignalsTime();
         SpawnTiles(_rhythm);
     }
@@ -89,5 +95,29 @@ public class TimerUI : MonoBehaviour
             
             if(timerImg.value >= 1f) SetTimerImgState(false);
         }
+    }
+
+    public void StartCountDown(RhythmGenerator.RhythmSample _rhythm)
+    {
+        StartCoroutine(CountDownCor(_rhythm));
+    }
+
+    IEnumerator CountDownCor(RhythmGenerator.RhythmSample _rhythm)
+    {
+        countdownPanel.SetActive(true);
+        countDownText.text = "3";
+        yield return new WaitForSeconds(1f);
+        countDownText.text = "2";
+        yield return new WaitForSeconds(1f);
+        countDownText.text = "1";
+        yield return new WaitForSeconds(1f);
+        countdownPanel.gameObject.SetActive(false);
+        StopCountDown(_rhythm);
+    }
+
+    private void StopCountDown(RhythmGenerator.RhythmSample _rhythm)
+    {
+        StartTimer(_rhythm);
+        CarController.Instance.PlayNewRhythm(_rhythm, true);
     }
 }
