@@ -30,14 +30,13 @@ public class CarController : MonoBehaviour
         if(playedRhythm != null) StopCoroutine(playedRhythm);
         _rhythmCopy = _newRhythm;
         
-        playedRhythm = StartCoroutine(DisplaySignal(_newRhythm.GetSignalSequence(), 0, _checkerMode));
+        playedRhythm = StartCoroutine(DisplaySignal(_newRhythm.GetSignalSequence(), _checkerMode));
     }
 
-    private IEnumerator DisplaySignal(List<RhythmGenerator.SignalSample> _signals, float _displayDelay, bool _checkerMode)
+    private IEnumerator DisplaySignal(List<RhythmGenerator.SignalSample> _signals, bool _checkerMode)
     {
-        float _newDelay = _signals[0].GetNextSignalDelay();
         //delay before new signal start
-        yield return new WaitForSeconds(_displayDelay);
+        yield return new WaitForSeconds(_signals[0].GetBeforeSignalDelay());
         
         //signal is shown
         if (_signals[0].GetSignalType() == 0)
@@ -72,7 +71,7 @@ public class CarController : MonoBehaviour
         _signals.RemoveAt(0);
         
         if(_signals.Count > 0)
-            playedRhythm = StartCoroutine(DisplaySignal(_signals, _newDelay, _checkerMode));
+            playedRhythm = StartCoroutine(DisplaySignal(_signals, _checkerMode));
         else
         {
             if (!_checkerMode)
@@ -86,6 +85,7 @@ public class CarController : MonoBehaviour
             else
             {
                 //player actions check ended
+                Debug.Log("player actions ended");
             }
         }
     }

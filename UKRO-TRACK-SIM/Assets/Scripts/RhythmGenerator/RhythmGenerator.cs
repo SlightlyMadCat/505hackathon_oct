@@ -32,12 +32,12 @@ public class RhythmGenerator : MonoBehaviour
 
         private SignalType signalType;
         [SerializeField] float duration;
-        [SerializeField] float nextSignalDelay;
+        [SerializeField] float beforeSignalDelay;
 
-        public SignalSample(float _duration, float _nextSignalDelay, int _signalTypeId)
+        public SignalSample(float _duration, float _beforeSignalDelay, int _signalTypeId)
         {
             duration = _duration;
-            nextSignalDelay = _nextSignalDelay;
+            beforeSignalDelay = _beforeSignalDelay;
 
             signalType = (SignalType)_signalTypeId;
         }
@@ -47,9 +47,9 @@ public class RhythmGenerator : MonoBehaviour
             return duration;
         }
 
-        public float GetNextSignalDelay()
+        public float GetBeforeSignalDelay()
         {
-            return nextSignalDelay;
+            return beforeSignalDelay;
         }
 
         public int GetSignalType()
@@ -89,7 +89,7 @@ public class RhythmGenerator : MonoBehaviour
                 }
 
                 SignalSample _newSignal = new SignalSample(_complexity.RandomSignalDuration(),
-                    _complexity.RandomNextSignalDelay(), _signalType);
+                    _complexity.RandomBeforeSignalDelay(), _signalType);
 
                 signalSamples.Add(_newSignal);
                 copySignals.Add(_newSignal);
@@ -108,9 +108,7 @@ public class RhythmGenerator : MonoBehaviour
             foreach (var VARIABLE in signalSamples)
             {
                 _totalTime += VARIABLE.GetDuration();
-
-                if (signalSamples.IndexOf(VARIABLE) != signalSamples.Count - 1)
-                    _totalTime += VARIABLE.GetNextSignalDelay();
+                _totalTime += VARIABLE.GetBeforeSignalDelay();
             }
 
             return _totalTime;
@@ -155,7 +153,7 @@ public class RhythmGenerator : MonoBehaviour
             return Random.Range(signalDurationBounds.x, signalDurationBounds.y);
         }
 
-        public float RandomNextSignalDelay()
+        public float RandomBeforeSignalDelay()
         {
             return Random.Range(signalDelayBounds.x, signalDelayBounds.y);
         }
