@@ -32,6 +32,7 @@ public class TimerUI : MonoBehaviour
         if (!_val)
         {
             HideTiles();
+            PlayerInput.Instance.ShowScore();
         }
     }
 
@@ -84,6 +85,7 @@ public class TimerUI : MonoBehaviour
         {
             //timer countdown
             timerImg.value += (timerScaleK / 1.05f * Time.fixedDeltaTime);
+            PlayerInput.Instance.CompareStates();
             
             if(timerImg.value >= 1f) SetTimerImgState(false);
         }

@@ -54,16 +54,25 @@ public class CarController : MonoBehaviour
         yield return new WaitForSeconds(_displayDelay);
         
         //signal is shown
-        if(_signals[0].GetSignalType() == 0) 
+        if (_signals[0].GetSignalType() == 0)
+        {
             SetLightsState(true);
-        else 
+            PlayerInput.Instance.SetRhythmLightsState(true);
+        }
+        else
+        {
             SetHornState(true);
-        
+            PlayerInput.Instance.SetRhythmSoundsState(true);
+        }
+
         yield return new WaitForSeconds(_signals[0].GetDuration());
 
         //signal is stopped
         SetHornState(false);
         SetLightsState(false);
+        
+        PlayerInput.Instance.SetRhythmLightsState(false);
+        PlayerInput.Instance.SetRhythmSoundsState(false);
         
         _signals.RemoveAt(0);
         
