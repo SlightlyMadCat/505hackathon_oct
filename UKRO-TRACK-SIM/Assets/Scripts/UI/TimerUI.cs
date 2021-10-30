@@ -68,16 +68,8 @@ public class TimerUI : MonoBehaviour
             _newTile.Init(tilesParent, VARIABLE.GetSignalType());
             
             Vector2 _sizeDelta = _newTile.parentRect.sizeDelta;
-
-            if (_rhythm.GetSignalSequence().IndexOf(VARIABLE) != _rhythm.GetSignalSequence().Count - 1)
-            {
-                _newTile.SetParentSizeScale(
-                    new Vector2(_scalerK * (VARIABLE.GetDuration() + VARIABLE.GetNextSignalDelay()), _sizeDelta.y));
-            }
-            else
-            {
-                _newTile.SetParentSizeScale(new Vector2(_scalerK * VARIABLE.GetDuration(), _sizeDelta.y));
-            }
+            
+            _newTile.SetParentSizeScale(new Vector2(_scalerK * (VARIABLE.GetDuration() + VARIABLE.GetBeforeSignalDelay()), _sizeDelta.y));
             _newTile.SetSignalImgSizeScale(new Vector2(_scalerK * VARIABLE.GetDuration(), _sizeDelta.y));
             
             spawnedTiles.Add(_newTile.transform);
@@ -89,7 +81,7 @@ public class TimerUI : MonoBehaviour
         if (timerImg.gameObject.activeSelf)
         {
             //timer countdown
-            timerImg.value += (timerScaleK / 1.05f * Time.fixedDeltaTime);
+            timerImg.value += (timerScaleK / 1f * Time.fixedDeltaTime / RhythmGenerator.Instance.globalTimeScaler);
             PlayerInput.Instance.CompareStates();
             
             if(timerImg.value >= 1f) SetTimerImgState(false);
