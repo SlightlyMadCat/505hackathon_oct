@@ -14,7 +14,7 @@ public class TileSample : MonoBehaviour
         transform.SetParent(_parent);
         transform.localScale = Vector3.one;
         icons[_tileType].SetActive(true);
-        icons[_tileType].transform.localScale = Vector3.one*2f;
+        icons[_tileType].transform.localScale = Vector3.one*.5f;
     }
     
     public void SetParentSizeScale(Vector2 _size)
