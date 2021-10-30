@@ -44,7 +44,6 @@ public class TimerUI : MonoBehaviour
     public void StartTimer(RhythmGenerator.RhythmSample _rhythm)
     {
         SetTimerImgState(true);
-        Debug.Log(_rhythm.GetTotalSignalsTime());
         timerScaleK = 1f / _rhythm.GetTotalSignalsTime();
         SpawnTiles(_rhythm);
     }
@@ -66,7 +65,7 @@ public class TimerUI : MonoBehaviour
         foreach (var VARIABLE in _rhythm.GetSignalSequence())
         {
             TileSample _newTile = Instantiate(tilePrefab).GetComponent<TileSample>();
-            _newTile.Init(tilesParent);
+            _newTile.Init(tilesParent, VARIABLE.GetSignalType());
             
             Vector2 _sizeDelta = _newTile.parentRect.sizeDelta;
 
@@ -104,6 +103,7 @@ public class TimerUI : MonoBehaviour
 
     IEnumerator CountDownCor(RhythmGenerator.RhythmSample _rhythm)
     {
+        yield return new WaitForSeconds(.25f);
         countdownPanel.SetActive(true);
         countDownText.text = "3";
         yield return new WaitForSeconds(1f);

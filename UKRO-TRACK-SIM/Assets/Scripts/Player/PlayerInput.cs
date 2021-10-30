@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+[RequireComponent(typeof(CarOutputSample))]
 public class PlayerInput : MonoBehaviour
 {
     public static PlayerInput Instance;
@@ -21,6 +22,8 @@ public class PlayerInput : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI rightText;
     [SerializeField] private TextMeshProUGUI wrongText;
+
+    private CarOutputSample _carOutputSample;
     
     private void Awake()
     {
@@ -35,16 +38,19 @@ public class PlayerInput : MonoBehaviour
         playerInputManager.PlayerMap.Sounds.canceled += ctx => SetSoundsState(false);
         
         playerInputManager.Enable();
+        _carOutputSample = GetComponent<CarOutputSample>();
     }
 
     private void SetLightsState(bool _val)
     {
         playerDesireLightsState = _val;
+        _carOutputSample.SetLightsState(_val);
     }
 
     private void SetSoundsState(bool _val)
     {
         playerDesireSoundsState = _val;
+        _carOutputSample.SetHornState(_val);
     }
 
     public void SetRhythmLightsState(bool _val)
@@ -64,15 +70,19 @@ public class PlayerInput : MonoBehaviour
         {
             if(playerDesireLightsState) rightActions++;
         }
-        else 
-            wrongActions++;
+        else
+        {
+            if(!rhythmDesireSoundsState) wrongActions++;
+        }
 
         if (playerDesireSoundsState == rhythmDesireSoundsState)
         {
             if(playerDesireSoundsState) rightActions++;
         }
-        else 
-            wrongActions++;
+        else
+        {
+            if(!playerDesireLightsState) wrongActions++;
+        }
 
         rightText.text = rightActions.ToString();
         wrongText.text = wrongActions.ToString();

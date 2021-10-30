@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(CarOutputSample))]
 public class CarController : MonoBehaviour
 {
     #region Singleton
@@ -13,34 +14,14 @@ public class CarController : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        _carOutputSample = GetComponent<CarOutputSample>();
     }
 
     #endregion
-    
-    [SerializeField] private Light[] lights;
-    [SerializeField] private AudioSource horn;
+
+    private CarOutputSample _carOutputSample;
     private Coroutine playedRhythm;
-
-    private void SetLightsState(bool _val)
-    {
-        foreach (var VARIABLE in lights)
-        {
-            VARIABLE.enabled = _val;
-        }
-    }
-
-    private void SetHornState(bool _val)
-    {
-        if (_val)
-        {
-            horn.Play();
-        }
-        else
-        {
-            horn.Stop();
-        }
-    }
-
+    
     //set to false if we want just display car lights without player actions check
     private RhythmGenerator.RhythmSample _rhythmCopy;
     
@@ -62,14 +43,14 @@ public class CarController : MonoBehaviour
         if (_signals[0].GetSignalType() == 0)
         {
             if(!_checkerMode)
-                SetLightsState(true);
+                _carOutputSample.SetLightsState(true);
             else
                 PlayerInput.Instance.SetRhythmLightsState(true);
         }
         else
         {
             if(!_checkerMode)
-                SetHornState(true);
+                _carOutputSample.SetHornState(true);
             else
                 PlayerInput.Instance.SetRhythmSoundsState(true);
         }
@@ -79,8 +60,8 @@ public class CarController : MonoBehaviour
         //signal is stopped
         if (!_checkerMode)
         {
-            SetHornState(false);
-            SetLightsState(false);
+            if (_signals[0].GetSignalType() == 0) _carOutputSample.SetLightsState(false);
+            else _carOutputSample.SetHornState(false);
         }
         else
         {
