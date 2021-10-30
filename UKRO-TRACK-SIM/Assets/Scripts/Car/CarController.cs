@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CarController : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private Light[] lights;
     [SerializeField] private AudioSource horn;
     private Coroutine playedRhythm;
-    
+
     private void SetLightsState(bool _val)
     {
         foreach (var VARIABLE in lights)

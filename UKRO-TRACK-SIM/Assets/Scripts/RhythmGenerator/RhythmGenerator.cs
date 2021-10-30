@@ -97,6 +97,20 @@ public class RhythmGenerator : MonoBehaviour
         {
             return signalSamples;
         }
+
+        public float GetTotalSignalsTime()
+        {
+            float _totalTime = 0;
+
+            foreach (var VARIABLE in signalSamples)
+            {
+                _totalTime += VARIABLE.GetDuration();
+                
+                if(signalSamples.IndexOf(VARIABLE) != signalSamples.Count-1)
+                    _totalTime += VARIABLE.GetNextSignalDelay();
+            }
+            return _totalTime;
+        }
     }
     
     [Serializable]
@@ -164,5 +178,6 @@ public class RhythmGenerator : MonoBehaviour
     {
         _rhythm = _generatedRhytm;
         CarController.Instance.PlayNewRhythm(_generatedRhytm);
+        TimerUI.Instance.StartTimer(_generatedRhytm.GetTotalSignalsTime());
     }
 }
