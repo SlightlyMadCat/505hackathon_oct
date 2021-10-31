@@ -18,11 +18,14 @@ public class SpeedController : MonoBehaviour
     [SerializeField] private float currentSpeedCoef = 0f;
     private float currentSpeed;
     private Coroutine speedCor;
+    [SerializeField]  private int minSkipCar = 3; 
+    private int minSkipCarOnStart = 3; 
     
     private void Awake()
     {
         Instance = this;
-        StartMovement(); 
+        StartMovement();
+        minSkipCarOnStart = minSkipCar;
     }
     
     public void FixedUpdate()
@@ -32,8 +35,7 @@ public class SpeedController : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKey(KeyCode.A))
-            StartMovement();
+        
     }
 
     // get current speed
@@ -83,10 +85,16 @@ public class SpeedController : MonoBehaviour
         
         // try stop car
         var _car = other.gameObject.GetComponent(typeof(CarStop)) as CarStop;
-        if (_car != null)
+        if (_car != null && minSkipCar == 0) 
         {
             other.GetComponent<CarController>().SetInstance(true);
             StopMovement();
+            minSkipCar = minSkipCarOnStart;
+        }
+        else
+        {
+            if (minSkipCar != 0)
+                minSkipCar--;
         }
     }
     
