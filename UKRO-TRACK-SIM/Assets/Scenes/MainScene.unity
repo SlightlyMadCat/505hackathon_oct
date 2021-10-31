@@ -698,6 +698,7 @@ GameObject:
   - component: {fileID: 276686550}
   - component: {fileID: 276686551}
   - component: {fileID: 276686552}
+  - component: {fileID: 276686555}
   - component: {fileID: 276686554}
   - component: {fileID: 276686553}
   m_Layer: 0
@@ -766,7 +767,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: 51bf92c09569b4e449f6373ec8362da1, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.35
-  m_Pitch: 1.1
+  m_Pitch: 1
   Loop: 1
   Mute: 0
   Spatialize: 0
@@ -858,20 +859,20 @@ AudioReverbFilter:
   m_GameObject: {fileID: 276686547}
   m_Enabled: 1
   m_DryLevel: 0
-  m_Room: 0
-  m_RoomHF: 0
-  m_DecayTime: 1
-  m_DecayHFRatio: 0.5
-  m_ReflectionsLevel: -10000
-  m_ReverbLevel: 0
-  m_ReverbDelay: 0.04
+  m_Room: -1000
+  m_RoomHF: -100
+  m_DecayTime: 1.49
+  m_DecayHFRatio: 0.83
+  m_ReflectionsLevel: -2602
+  m_ReverbLevel: 200
+  m_ReverbDelay: 0.011
   m_Diffusion: 100
   m_Density: 100
   m_HFReference: 5000
   m_RoomLF: 0
   m_LFReference: 250
   m_ReflectionsDelay: 0
-  m_ReverbPreset: 27
+  m_ReverbPreset: 1
 --- !u!170 &276686552
 AudioDistortionFilter:
   m_ObjectHideFlags: 0
@@ -910,6 +911,31 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!169 &276686555
+AudioLowPassFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 276686547}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_LowpassResonanceQ: 1
+  lowpassLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.09727149
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &357072868
 GameObject:
   m_ObjectHideFlags: 0
@@ -1263,7 +1289,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 13bc235c3b8feb04b99da56f841407ad, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.745283, g: 0.745283, b: 0.745283, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -2427,7 +2453,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 13bc235c3b8feb04b99da56f841407ad, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.745283, g: 0.745283, b: 0.745283, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -3619,7 +3645,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6a2ec18d0a79d042b6a827bc452bc24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLevel: 0
+  playerLevel: 25
   levelText: {fileID: 124291344}
   playerLives: 3
   livesText: {fileID: 1490165739}
@@ -3669,22 +3695,25 @@ MonoBehaviour:
   complexityLevelSamples:
   - name: Easy
     requiredPlayerLevel: 0
-    signalsCountBounds: {x: 2, y: 5}
-    signalDurationBounds: {x: 0.5, y: 1}
-    signalDelayBounds: {x: 0.5, y: 1}
+    signalsCountBounds: {x: 4, y: 8}
+    signalDurationBounds: {x: 0.4, y: 0.9}
+    signalDelayBounds: {x: 0.4, y: 0.9}
     allowedSignals: 00000000
+    assignedTimeScaler: 1.4
   - name: Medium
-    requiredPlayerLevel: 5
-    signalsCountBounds: {x: 3, y: 6}
-    signalDurationBounds: {x: 0.25, y: 0.9}
-    signalDelayBounds: {x: 0.25, y: 0.9}
+    requiredPlayerLevel: 3
+    signalsCountBounds: {x: 5, y: 9}
+    signalDurationBounds: {x: 0.3, y: 0.8}
+    signalDelayBounds: {x: 0.3, y: 0.8}
     allowedSignals: 0000000001000000
+    assignedTimeScaler: 1.1
   - name: Hard
-    requiredPlayerLevel: 10
-    signalsCountBounds: {x: 4, y: 7}
-    signalDurationBounds: {x: 0.1, y: 0.8}
-    signalDelayBounds: {x: 0.1, y: 0.8}
+    requiredPlayerLevel: 9
+    signalsCountBounds: {x: 6, y: 10}
+    signalDurationBounds: {x: 0.2, y: 0.7}
+    signalDelayBounds: {x: 0.2, y: 0.7}
     allowedSignals: 000000000100000002000000
+    assignedTimeScaler: 0.8
   globalTimeScaler: 1.5
 --- !u!1 &1625987212
 GameObject:
@@ -5100,7 +5129,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 13bc235c3b8feb04b99da56f841407ad, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.745283, g: 0.745283, b: 0.745283, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

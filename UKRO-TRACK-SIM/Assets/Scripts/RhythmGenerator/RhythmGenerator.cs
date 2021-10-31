@@ -137,7 +137,8 @@ public class RhythmGenerator : MonoBehaviour
         }
 
         public List<AllowedSignals> allowedSignals = new List<AllowedSignals>();
-
+        [SerializeField] private float assignedTimeScaler = 1f;
+        
         public bool AllowedToUse(int _curPlayerLevel)
         {
             return _curPlayerLevel >= requiredPlayerLevel;
@@ -156,6 +157,11 @@ public class RhythmGenerator : MonoBehaviour
         public float RandomBeforeSignalDelay()
         {
             return Random.Range(signalDelayBounds.x, signalDelayBounds.y);
+        }
+
+        public float GetTimeScaler()
+        {
+            return assignedTimeScaler;
         }
     }
 
@@ -178,6 +184,16 @@ public class RhythmGenerator : MonoBehaviour
         }
         
         RhythmSample _newRhythm = new RhythmSample(complexityLevelSamples[_randomLevel]);
+
+        for (int i = complexityLevelSamples.Count-1; i > 0; i--)
+        {
+            if (complexityLevelSamples[i].AllowedToUse(Player.Instance.GetCurrentPlayerLevel()))
+            {
+                globalTimeScaler = complexityLevelSamples[i].GetTimeScaler();
+                break;
+            }
+        }
+
         PlayRhythm(_newRhythm);
     }
     
