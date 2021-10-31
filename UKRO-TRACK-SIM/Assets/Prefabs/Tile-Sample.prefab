@@ -136,7 +136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.5019608}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -271,6 +271,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   signalImg: {fileID: 7791696401098833132}
   parentRect: {fileID: 1998328245807698791}
+  colors:
+  - serializedVersion: 2
+    rgba: 2155802623
+  - serializedVersion: 2
+    rgba: 2164238214
   icons:
   - {fileID: 1529753454087834879}
   - {fileID: 6159325363097037815}
