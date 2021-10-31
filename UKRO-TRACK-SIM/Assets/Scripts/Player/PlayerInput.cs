@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CarOutputSample))]
 public class PlayerInput : MonoBehaviour
@@ -27,6 +28,17 @@ public class PlayerInput : MonoBehaviour
 
     [Header("Percent for update level")] [SerializeField]
     private float minValueForNextLevel = 0.65f;
+
+    
+    [SerializeField] private GameObject scoreObj;
+    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private Color goodColor;
+    [SerializeField] private Color badColor;
+    [Space] 
+    [SerializeField] private Image imageScore;
+    [SerializeField] private Sprite goodSprite;
+    [SerializeField] private Sprite badSprite;
+    
     
     private void Awake()
     {
@@ -96,12 +108,36 @@ public class PlayerInput : MonoBehaviour
         float _sum = wrongActions + rightActions;
         
         Debug.Log(rightActions / _sum);
-        if (rightActions / _sum > minValueForNextLevel)
+        var result = rightActions / _sum;
+        if (result > minValueForNextLevel)
             Player.Instance.UpdateLevel();
         else
             Player.Instance.MinusLive();
 
+        
         wrongActions = 0;
         rightActions = 0;
+        StartCoroutine(ShowResult(result));
+        Debug.LogError("Show start");
+    }
+
+    IEnumerator ShowResult(float _result)
+    {
+        if (_result > minValueForNextLevel)
+        {
+            imageScore.sprite = goodSprite;
+            scoreText.text = _result.ToString("0.00");
+            scoreText.color = goodColor;
+        }
+        else
+        {
+            imageScore.sprite = badSprite;
+            scoreText.text = _result.ToString("0.00");
+            scoreText.color = badColor;
+        }
+        scoreObj.SetActive(true);
+        yield return new WaitForSeconds(3);
+        scoreObj.SetActive(false);
+        SpeedController.Instance.StartMovement();
     }
 }
