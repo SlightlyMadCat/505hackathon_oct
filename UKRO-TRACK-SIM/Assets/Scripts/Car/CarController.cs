@@ -13,12 +13,18 @@ public class CarController : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
+        
         _carOutputSample = GetComponent<CarOutputSample>();
     }
 
     #endregion
 
+    // enable/disable from trigger enter
+    public void SetInstance(bool _val)
+    {
+        Instance = _val ? this : null;
+    }
+    
     private CarOutputSample _carOutputSample;
     private Coroutine playedRhythm;
     

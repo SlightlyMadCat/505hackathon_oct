@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -111,5 +112,19 @@ public class TimerUI : MonoBehaviour
     {
         StartTimer(_rhythm);
         CarController.Instance.PlayNewRhythm(_rhythm, true);
+    }
+
+    public IEnumerator ShowCountDownWhenCarStop()
+    {
+        yield return new WaitForSeconds(.25f);
+        countdownPanel.SetActive(true);
+        countDownText.text = "3";
+        yield return new WaitForSeconds(1f);
+        countDownText.text = "2";
+        yield return new WaitForSeconds(1f);
+        countDownText.text = "1";
+        yield return new WaitForSeconds(1f);
+        countdownPanel.gameObject.SetActive(false);
+        RhythmGenerator.Instance.GenerateNewSignal();
     }
 }

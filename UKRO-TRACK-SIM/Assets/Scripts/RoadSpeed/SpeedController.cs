@@ -18,10 +18,7 @@ public class SpeedController : MonoBehaviour
     [SerializeField] private float currentSpeedCoef = 0f;
     private float currentSpeed;
     private Coroutine speedCor;
-
-    [Header("Delay settings")]
-    [SerializeField] private int seconds = 3;
-    [SerializeField] private Text secondText;
+    
     private void Awake()
     {
         Instance = this;
@@ -57,7 +54,7 @@ public class SpeedController : MonoBehaviour
         if(speedCor != null)
             StopCoroutine(speedCor);
         SetCurrentSpeedCoef(0);
-        StartCoroutine(ShowDelayBeforeGame());
+        TimerUI.Instance.StartCoroutine(TimerUI.Instance.ShowCountDownWhenCarStop());
     }
     
     [ContextMenu("start")]
@@ -82,30 +79,26 @@ public class SpeedController : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
+        if (!other.gameObject.CompareTag("Car")) return;
+        
         // try stop car
-        if (other.gameObject.CompareTag("Car"))
+        var _car = other.gameObject.GetComponent(typeof(CarStop)) as CarStop;
+        if (_car != null)
         {
-            var _car = other.gameObject.GetComponent(typeof(CarStop)) as CarStop;
-            if (_car != null)
-                StopMovement();
+            other.GetComponent<CarController>().SetInstance(true);
+            StopMovement();
         }
-    }
-
-    // show delay before start game
-    IEnumerator ShowDelayBeforeGame()
-    {
-        int _currentSecond = seconds;
-        secondText.text = _currentSecond.ToString();
-        secondText.gameObject.SetActive(true);
-        while (_currentSecond != 0)
-        {
-            yield return new WaitForSeconds(1);
-            _currentSecond--;
-            secondText.text = _currentSecond.ToString();
-        }
-        secondText.gameObject.SetActive(false);
-        Debug.LogError("start game");
-        RhythmGenerator.Instance.GenerateNewSignal();
     }
     
+    private void OnTriggerExit(Collider other)
+    {
+        if (!other.gameObject.CompareTag("Car")) return;
+        
+        // try disable car Instance
+        var _car = other.gameObject.GetComponent(typeof(CarStop)) as CarStop;
+        if (_car != null)
+        {
+            other.GetComponent<CarController>().SetInstance(false);
+        }
+    }
 }
