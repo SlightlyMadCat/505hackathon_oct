@@ -64,7 +64,7 @@ public class SceneChangingManager : MonoBehaviour
 
     IEnumerator IntroCor()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(5.5f);
         LoadScene();
     }
 

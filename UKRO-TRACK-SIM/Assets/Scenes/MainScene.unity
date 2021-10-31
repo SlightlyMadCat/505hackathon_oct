@@ -3901,7 +3901,7 @@ MonoBehaviour:
   wrongActions: 0
   rightText: {fileID: 1010084821}
   wrongText: {fileID: 1971021126}
-  minValueForNextLevel: 0.65
+  minValueForNextLevel: 0.7
 --- !u!114 &1718499499
 MonoBehaviour:
   m_ObjectHideFlags: 0
