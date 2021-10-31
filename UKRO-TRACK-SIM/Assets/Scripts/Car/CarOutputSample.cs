@@ -11,6 +11,8 @@ public class CarOutputSample : MonoBehaviour
     [SerializeField] private Light[] lights;
     [SerializeField] private AudioSource horn;
     [SerializeField] private AudioSource click;
+    [SerializeField] private GameObject enabledLightsObj;
+    [SerializeField] private GameObject disabledLightsObj;
 
     public void SetLightsState(bool _val)
     {
@@ -19,6 +21,8 @@ public class CarOutputSample : MonoBehaviour
             VARIABLE.enabled = _val;
         }
         
+        if(enabledLightsObj != null) enabledLightsObj.SetActive(_val);
+        if(disabledLightsObj != null) disabledLightsObj.SetActive(!_val);
         click.Play();
     }
 
