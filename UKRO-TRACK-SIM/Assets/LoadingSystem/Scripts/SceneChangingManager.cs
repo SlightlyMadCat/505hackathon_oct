@@ -70,7 +70,8 @@ public class SceneChangingManager : MonoBehaviour
 
     private void Update()
     {
-
+        if(Input.GetKeyDown(KeyCode.Escape))
+            AppQuit();
         
         if(showFPS)
             deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
